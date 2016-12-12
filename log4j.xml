@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="warn" name="SocketServerLog" monitorInterval="30">
   <Appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-    </Console>
+    <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="logs/info.log"
+                 filePattern="logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd-HH}-%i.log.gz">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
+        <SizeBasedTriggeringPolicy size="25 MB"/>
+      </Policies>
+    </RollingRandomAccessFile>
   </Appenders>
   <Loggers>
-    <Root level="error">
-      <AppenderRef ref="Console"/>
+    <Root level="info">
+      <AppenderRef ref="RollingRandomAccessFile"/>
     </Root>
   </Loggers>
 </Configuration>
